@@ -2,27 +2,28 @@
   <div class="box">
     <div class="col" ref="col1">
       <transition-group name="list">
-        <div class="item" v-for="item in dataList1" :key="item.id">{{item.text}}</div>
+        <div class="item" v-for="item in dataList1" :key="item.id"><div>{{item.id}}</div>{{item.text}}</div>
       </transition-group>
     </div>
     <div class="col" ref="col2">
       <transition-group name="list">
-        <div class="item" v-for="item in dataList2" :key="item.id">{{item.text}}</div>
+        <div class="item" v-for="item in dataList2" :key="item.id"><div>{{item.id}}</div>{{item.text}}</div>
       </transition-group>
     </div>
     <div class="col" ref="col3">
       <transition-group name="list">
-        <div class="item" v-for="item in dataList3" :key="item.id">{{item.text}}</div>
+        <div class="item" v-for="item in dataList3" :key="item.id"><div>{{item.id}}</div>{{item.text}}</div>
       </transition-group>
     </div>
     <div class="col" ref="col4">
       <transition-group name="list">
-        <div class="item" v-for="item in dataList4" :key="item.id">{{item.text}}</div>
+        <div class="item" v-for="item in dataList4" :key="item.id"><div>{{item.id}}</div>{{item.text}}</div>
       </transition-group>
     </div>
   </div>
 </template>
 <script>
+import mockData from './assets/data'
 export default {
   data() {
     return {
@@ -34,12 +35,20 @@ export default {
     }
   },
   mounted() {
-    this.$http({ url: 'http://localhost:6060/paragraph', method: 'get' }).then(res => {
-      this.mainMenuList = res.data
+    this.fetchData().then((mockData) => {
+      this.mainMenuList = mockData
       this.mountMenu()
     })
   },
   methods: {
+    fetchData() {
+      /** 模拟数据请求*/
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(mockData)
+        }, 300)
+      })
+    },
     mountMenu(arg) {
       var temp = this.mainMenuList
       var index = arg || 0
@@ -80,13 +89,13 @@ export default {
 /* transition样式 */
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.6s;
+  transition: all 1s;
   overflow: hidden;
 }
 .list-enter,
 .list-leave-to {
-  opacity: 0.4;
-  transform: translateY(30px);
+  opacity: 0;
+  transform: translateY(60px);
 }
 
 .box {
